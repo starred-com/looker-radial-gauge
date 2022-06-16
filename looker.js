@@ -16,7 +16,7 @@ const visObject = {
         var mesData = data[0][mesID];
         var mesLink = mesData.links;
         var mesRendered = mesData.rendered === undefined ? mesData.value : mesData.rendered;
-        var svg = d3.select("#visual")
+        var svg = d3.select("#vis")
                     .append("svg")
                     .style('position', 'fixed')
                     .attr('viewBox', '-20 -20 700 800')

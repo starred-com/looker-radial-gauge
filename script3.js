@@ -1,5 +1,5 @@
 
-var svg = d3.select("#visual").append("svg").style('position', 'fixed')
+var svg = d3.select("#vis").append("svg").style('position', 'fixed')
 .attr('viewBox', '-20 -20 700 800').attr('preserveAspectRatio', 'xMidYMid meet');
 const slices = [
     {
@@ -98,7 +98,7 @@ function rotateIndicator(input) {
     return angleNumber
 };
 
-var dataNps = -90
+var dataNps = 10
 var numberOfint = dataNps.toString().length
 console.log(dataNps.toString().length)
 svg.append("line")
