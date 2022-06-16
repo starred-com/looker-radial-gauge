@@ -59,7 +59,8 @@ var arcGenerator = slices.map(d => {
     )
     .attr("fill", d.color)
     .attr("stroke", "white")
-    .attr("stroke-width", 1);
+    .attr("stroke-width", 1)
+    .style('cursor', 'pointer');
 });
 var sideText = texts.map(d => {
     svg.append("text")
@@ -117,4 +118,5 @@ var score = svg.append("text")
     .style("font-size", "38px")
     .attr("fill", "#333")
     .style("font-family", "Arial, Helvetica, sans-serif")
+    .style('cursor', 'pointer')
     .text(dataNps);
