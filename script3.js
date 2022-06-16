@@ -48,7 +48,7 @@ svg.append("rect")
 svg.append("g").attr("transform", "translate(150,100)");
 
 var arcGenerator = slices.map(d => {
-    d3.select("#visual g")
+    d3.select("#vis g")
     .append("path")
     .attr("d", 
         d3.arc()
