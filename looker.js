@@ -82,7 +82,7 @@ const visObject = {
             .attr("stroke-width", 1);
         });
 
-        score.on("click", function (d, i) {
+        arcGenerator.on("click", function (d, i) {
             LookerCharts.Utils.openDrillMenu({
                 links: mesLink,
                 event: event,
