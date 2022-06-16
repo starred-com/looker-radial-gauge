@@ -8,8 +8,6 @@ const visObject = {
       doneRendering
     ) {
         element.innerHTML = "";
-        console.log('data', data);
-        console.log('queryResponse', queryResponse);
 
         var meas = queryResponse["fields"]["measure_like"];
         var mesID = meas[0]["name"];
@@ -50,7 +48,6 @@ const visObject = {
                 y: 90
             }
         ];
-
         // Add the red line at the bottom
         svg.append("line")
             .attr("x1", 0)
