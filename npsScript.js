@@ -31,20 +31,6 @@ const texts = [
     }
 ];
 
-// Add the red line at the bottom
-svg.append("line")
-    .attr("x1", 0)
-    .attr("x2", 300)
-    .attr("y1", 100)
-    .attr("y2", 100)
-    .attr("stroke-width", 5).attr("stroke", "red");
-// Add white background to hide the line at the center
-svg.append("rect")
-    .attr("width", "210")
-    .attr("height", "150")
-    .attr("fill", "white")
-    .attr("transform", "translate(45,0)");
-// Add container to house the arch    
 svg.append("g").attr("transform", "translate(150,100)");
 
 var arcGenerator = slices.map(d => {
@@ -71,37 +57,43 @@ var sideText = texts.map(d => {
     .style("font-family", "Arial, Helvetica, sans-serif")
     .text(d.number);
 });
-
+// function will check the range between 1 - 7 and if it's out of range then the return is error 'string'
 function rotateIndicator(input) {
     var angleNumber = null
-    if (input > 100) {
-        angleNumber = 180
-    }
-    if (input => -100 && input <= -67) {
-        angleNumber = 10
-    } 
-    if (input > -67 && input <= -33) {
-        angleNumber = 60
-    }
-    if (input > -33 && input <= 1) {
-        angleNumber = 80
-    }
-    if (input > 1 && input <= 33) {
-        angleNumber = 110
-    }
-    if (input > 33 && input <= 67) {
-        angleNumber = 140
-    }
-    if (input > 67 && input <= 100) {
-        angleNumber = 170
+
+    if (input > -101 && input < 101) {
+        if (input <= -90) {
+            angleNumber = 20
+        } 
+        if (input > -90 && input <= -67) {
+            angleNumber = 40
+        } 
+        if (input > -67 && input <= -33) {
+            angleNumber = 60
+        }
+        if (input > -33 && input <= 1) {
+            angleNumber = 80
+        }
+        if (input > 1 && input <= 33) {
+            angleNumber = 110
+        }
+        if (input > 33 && input <= 67) {
+            angleNumber = 140
+        }
+        if (input > 67 && input <= 100) {
+            angleNumber = 170
+        }
+    } else {
+        angleNumber = 'Out of range!'
     }
 
     return angleNumber
 };
 
-var dataNps = 10
-var numberOfint = dataNps.toString().length
-console.log(dataNps.toString().length)
+var dataNps = 700;
+var isString = isNaN(rotateIndicator(dataNps));
+var numberOfint = dataNps.toString().length;
+
 svg.append("line")
     .attr("x1", 80)
     .attr("x2", 150)
@@ -111,8 +103,16 @@ svg.append("line")
     .attr("stroke-width", 5).attr("stroke", "#333")
     .attr('transform','translate(1 1) rotate(' + rotateIndicator(dataNps) + ')')
     .attr('transform-origin', '150 100');
-
-var score = svg.append("text")
+// Check whither the function output is a number or a string
+var score = isString ? svg.append("text")
+    .attr("dx", 40)
+    .attr("dy", 120)
+    .style('font-size', '10px')
+    .attr("fill", "red")
+    .style("font-family", "Arial, Helvetica, sans-serif")
+    .style('cursor', 'pointer')
+    .text('Out of range!, your input must be between -100 to 100') : 
+    svg.append("text")
     .attr("dx", numberOfint > 2 ? 120 : 130)
     .attr("dy", 140)
     .style("font-size", "38px")
