@@ -43,7 +43,7 @@ const visObject = {
                 y: 90
             }, 
             {
-                number: '100',
+                number: '+100',
                 x: 255,
                 y: 90
             }

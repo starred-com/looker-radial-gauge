@@ -39,12 +39,12 @@ const visObject = {
         ];
         const texts = [
             {
-                number: '-100',
+                number: 'Very low effort (1)',
                 x: 15,
                 y: 90
             }, 
             {
-                number: '100',
+                number: 'Very high effort (5)',
                 x: 255,
                 y: 90
             }
