@@ -128,13 +128,13 @@ const visObject = {
 
         var score = 
         svg.append("text")
-        .attr("dx", numberOfint > 2 ? 120 : 130)
-        .attr("dy", 140)
-        .style("font-size", "38px")
-        .attr("fill", "#333")
+        .attr("dx", isString ? 40 : (numberOfint > 2 ? 120 : 130))
+        .attr("dy", isString ? 120 : 140)
+        .style("font-size", isString ? '10px' :"38px")
+        .attr("fill", isString ? "red" :"#333")
         .style("font-family", "Arial, Helvetica, sans-serif")
         .style('cursor', 'pointer')
-        .text(mesRendered)
+        .text(isString ? 'Out of range!, your input must be between -100 to 100' : mesRendered)
         .on("click", function (d, i) {
             LookerCharts.Utils.openDrillMenu({
                 links: mesLink,
