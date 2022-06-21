@@ -58,42 +58,53 @@ var sideText = texts.map(d => {
     .text(d.lable);
 });
 // function will check the range between 1 - 7 and if it's out of range then the return is error 'string'
-function rotateIndicator(input) {
-    var angleNumber = null
-    if (input > 0 && input < 8) {
-        if (input <= 1.5) {
-            angleNumber = 30
-        }
-        if (input > 1.5 && input <= 2) {
-            angleNumber = 60
-        }
-        if (input > 2 && input <= 2.4) {
-            angleNumber = 80
-        }
-        if (input > 2.4 && input <= 3.4) {
-            angleNumber = 90
-        }
-        if (input > 3.4 && input <= 4.5) {
-            angleNumber = 130
-        }
-        if (input > 4.5 && input <= 5) {
-            angleNumber = 150
-        }
-        if (input > 5 && input <= 6) {
-            angleNumber = 160
-        }
-        if (input > 6) {
-            angleNumber = 170
-        }
+// function rotateIndicator(input) {
+//     var angleNumber = null
+//     if (input > 0 && input < 8) {
+//         if (input <= 1.5) {
+//             angleNumber = 30
+//         }
+//         if (input > 1.5 && input <= 2) {
+//             angleNumber = 60
+//         }
+//         if (input > 2 && input <= 2.4) {
+//             angleNumber = 80
+//         }
+//         if (input > 2.4 && input <= 3.4) {
+//             angleNumber = 90
+//         }
+//         if (input > 3.4 && input <= 4.5) {
+//             angleNumber = 130
+//         }
+//         if (input > 4.5 && input <= 5) {
+//             angleNumber = 150
+//         }
+//         if (input > 5 && input <= 6) {
+//             angleNumber = 160
+//         }
+//         if (input > 6) {
+//             angleNumber = 170
+//         }
+//     } else {
+//         angleNumber = 'Out of range!';
+//     }
+
+//     return angleNumber
+// };
+
+// compare the input number with the first range against the second range
+function convertRange( input, range1, range2 ) {
+    // check if the input is less than 1 or more than 7
+    console.log(range1[0] - 0.1)
+    if (input > range1[0] - 0.1 && input <= range1[1]) {
+        return ( input - range1[ 0 ] ) * ( range2[ 1 ] - range2[ 0 ] ) / ( range1[ 1 ] - range1[ 0 ] ) + range2[ 0 ]
     } else {
-        angleNumber = 'Out of range!';
+        return 'Out of range!'
     }
+}
 
-    return angleNumber
-};
-
-var dataNps = 1;
-var isString = isNaN(rotateIndicator(dataNps));
+var dataNps = 7.1;
+var isString = isNaN(convertRange(dataNps, [1, 7], [0, 180]));
 var numberOfint = dataNps.toString().length;
 
 svg.append("line")
@@ -103,7 +114,7 @@ svg.append("line")
     .attr("y2", 100)
     .attr("pathLength", 100)
     .attr("stroke-width", 5).attr("stroke", "#333")
-    .attr('transform','translate(1 1) rotate(' + rotateIndicator(dataNps) + ')')
+    .attr('transform','translate(1 1) rotate(' + convertRange(dataNps, [1, 7], [0, 180]) + ')')
     .attr('transform-origin', '150 100');
 // Check whither the function output is a number or a string
 var score = isString ? 
