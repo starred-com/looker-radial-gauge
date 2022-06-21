@@ -130,7 +130,7 @@ const visObject = {
         svg.append("text")
         .attr("dx", isString ? 40 : (numberOfint > 2 ? 120 : 130))
         .attr("dy", isString ? 120 : 140)
-        .style("font-size", isString ? '10px' :"38px")
+        .style("font-size", isString ? '10px' : "38px")
         .attr("fill", isString ? "red" :"#333")
         .style("font-family", "Arial, Helvetica, sans-serif")
         .style('cursor', 'pointer')
