@@ -18,7 +18,7 @@ const visObject = {
         var svg = d3.select("#vis")
                     .append("svg")
                     .style('position', 'fixed')
-                    .attr('viewBox', '-50 -20 700 800')
+                    .attr('viewBox', '-50 -20 425 160')
                     .attr('preserveAspectRatio', 'xMidYMid meet');
         const slices = [
             {
@@ -81,43 +81,21 @@ const visObject = {
             .style("font-size", "10px")
             .attr("fill", "#333")
             .style("font-family", "Arial, Helvetica, sans-serif")
-            .text(d.number);
+            .text(d.lable);
         });
 
-        function rotateIndicator(input) {
-            var score = null
-            if (input > 0 && input < 8) {
-                if (input <= 1.5) {
-                    score = 30
-                }
-                if (input > 1.5 && input <= 2) {
-                    score = 60
-                }
-                if (input > 2 && input <= 2.4) {
-                    score = 80
-                }
-                if (input > 2.4 && input <= 3.4) {
-                    score = 90
-                }
-                if (input > 3.4 && input <= 4.5) {
-                    score = 130
-                }
-                if (input > 4.5 && input <= 5) {
-                    score = 150
-                }
-                if (input > 5 && input <= 6) {
-                    score = 160
-                }
-                if (input > 6) {
-                    score = 170
-                }
+        // compare the input number with the first range against the second range
+        function convertRange( input, range1, range2 ) {
+            // check if the input is less than 1 or more than 7
+            console.log(range1[0] - 0.1)
+            if (input > range1[0] - 0.1 && input <= range1[1]) {
+                return ( input - range1[ 0 ] ) * ( range2[ 1 ] - range2[ 0 ] ) / ( range1[ 1 ] - range1[ 0 ] ) + range2[ 0 ]
             } else {
-                score = 'Out of range!';
+                return 'Out of range!'
             }
-        
-            return score
-        };
-        var isString = isNaN(rotateIndicator(mesRendered));
+        }
+
+        var isString = isNaN(convertRange(mesRendered, [1, 7], [0, 180]));
         var numberOfint = mesRendered.toString().length;
 
         svg.append("line")
@@ -127,7 +105,7 @@ const visObject = {
             .attr("y2", 100)
             .attr("pathLength", 100)
             .attr("stroke-width", 5).attr("stroke", "#333")
-            .attr('transform','translate(1 1) rotate(' + rotateIndicator(mesRendered) + ')')
+            .attr('transform','translate(1 1) rotate(' + convertRange(mesRendered, [1, 7], [0, 180]) + ')')
             .attr('transform-origin', '150 100');
 
         var score = isString ? 

@@ -1,6 +1,6 @@
 
 var svg = d3.select("#vis").append("svg").style('position', 'fixed')
-.attr('viewBox', '-20 -20 700 800').attr('preserveAspectRatio', 'xMidYMid meet');
+.attr('viewBox', '-20 -20 350 160').attr('preserveAspectRatio', 'xMidYMid meet');
 const slices = [
     {
         starts: -1.48999 * Math.PI/3,
@@ -100,7 +100,7 @@ function convertRange( input, range1, range2 ) {
     }
 }
 
-var dataNps = -99;
+var dataNps = -101;
 var isString = isNaN(convertRange(dataNps, [-100, 100], [0, 180]));
 var numberOfint = dataNps.toString().length;
 

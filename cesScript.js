@@ -1,6 +1,6 @@
 
 var svg = d3.select("#vis").append("svg").style('position', 'fixed')
-.attr('viewBox', '-50 -20 700 800').attr('preserveAspectRatio', 'xMidYMid meet');
+.attr('viewBox', '-50 -20 410 160').attr('preserveAspectRatio', 'xMidYMid meet');
 const slices = [
     {
         starts: -1.48999 * Math.PI/3,

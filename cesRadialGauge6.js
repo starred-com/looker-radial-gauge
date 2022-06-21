@@ -18,7 +18,7 @@ const visObject = {
         var svg = d3.select("#vis")
                     .append("svg")
                     .style('position', 'fixed')
-                    .attr('viewBox', '-50 -20 700 800')
+                    .attr('viewBox', '-50 -20 410 160')
                     .attr('preserveAspectRatio', 'xMidYMid meet');
         const slices = [
             {
@@ -104,7 +104,7 @@ const visObject = {
             .attr("y2", 100)
             .attr("pathLength", 100)
             .attr("stroke-width", 5).attr("stroke", "#333")
-            .attr('transform','translate(1 1) rotate(' + rotateIndicator(mesRendered) + ')')
+            .attr('transform','translate(1 1) rotate(' + convertRange(mesRendered, [1, 5], [0, 180]) + ')')
             .attr('transform-origin', '150 100');
 
         var score = isString ? 
