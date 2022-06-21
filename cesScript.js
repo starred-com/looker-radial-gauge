@@ -86,7 +86,7 @@ function rotateIndicator(input) {
     return score
 };
 
-var dataNps = 5;
+var dataNps = 1;
 var isString = isNaN(rotateIndicator(dataNps));
 var numberOfint = dataNps.toString().length;
 

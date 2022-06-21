@@ -8,8 +8,7 @@ const visObject = {
       doneRendering
     ) {
         element.innerHTML = "";
-        console.log('queryResponse', queryResponse)
-        console.log('data', data)
+
         var meas = queryResponse["fields"]["measure_like"];
         var mesID = meas[0]["name"];
         var mesData = data[0][mesID];
@@ -85,31 +84,34 @@ const visObject = {
         });
 
         function rotateIndicator(input) {
-            var score = null
-            if (input > 0 && input < 6) {
-                if (input <= 1.3) {
-                    score = 40
+            var angleNumber = null
+            if (input > -101 && input < 101) {
+                if (input <= -90) {
+                    angleNumber = 20
+                } 
+                if (input > -90 && input <= -67) {
+                    angleNumber = 40
+                } 
+                if (input > -67 && input <= -33) {
+                    angleNumber = 60
                 }
-                if (input > 1.3 && input <= 1.7) {
-                    score = 60
+                if (input > -33 && input <= 1) {
+                    angleNumber = 80
                 }
-                if (input > 1.7 && input <= 2.4) {
-                    score = 80
+                if (input > 1 && input <= 33) {
+                    angleNumber = 110
                 }
-                if (input > 2.4 && input <= 3.4) {
-                    score = 90
+                if (input > 33 && input <= 67) {
+                    angleNumber = 140
                 }
-                if (input > 3.4 && input <= 4.5) {
-                    score = 130
-                }
-                if (input > 4.5) {
-                    score = 150
+                if (input > 67 && input <= 100) {
+                    angleNumber = 170
                 }
             } else {
-                score = 'Out of range!';
+                angleNumber = 'Out of range!'
             }
 
-            return score
+            return angleNumber
         };
         var isString = isNaN(rotateIndicator(mesRendered));
         var numberOfint = mesRendered.toString().length;
@@ -124,15 +126,7 @@ const visObject = {
             .attr('transform','translate(1 1) rotate(' + rotateIndicator(mesRendered) + ')')
             .attr('transform-origin', '150 100');
 
-        var score = isString ? 
-        svg.append("text")
-        .attr("dx", 40)
-        .attr("dy", 120)
-        .style('font-size', '10px')
-        .attr("fill", "red")
-        .style("font-family", "Arial, Helvetica, sans-serif")
-        .style('cursor', 'pointer')
-        .text('Out of range!, your input must be between 1 to 5') : 
+        var score = 
         svg.append("text")
         .attr("dx", numberOfint > 2 ? 120 : 130)
         .attr("dy", 140)
