@@ -8,8 +8,7 @@ const visObject = {
       doneRendering
     ) {
         element.innerHTML = "";
-        console.log('queryResponse', queryResponse)
-        console.log('data', data)
+
         var meas = queryResponse["fields"]["measure_like"];
         var mesID = meas[0]["name"];
         var mesData = data[0][mesID];
@@ -18,13 +17,13 @@ const visObject = {
         var svg = d3.select("#vis")
                     .append("svg")
                     .style('position', 'fixed')
-                    .attr('viewBox', '-50 -20 425 160')
+                    .attr('viewBox', '-50 -20 410 160')
                     .attr('preserveAspectRatio', 'xMidYMid meet');
         const slices = [
             {
                 starts: -1.48999 * Math.PI/3,
                 ends: -0.5 * Math.PI/3,
-                color: 'rgb(85, 158, 56)'
+                color: 'rgb(228, 86, 33)'
             },
             {
                 starts: -0.5 * Math.PI/3,
@@ -34,17 +33,17 @@ const visObject = {
             {
                 starts: 0.5 * Math.PI/3,
                 ends: 1.5 * Math.PI/3,
-                color: 'rgb(228, 86, 33)'
+                color: 'rgb(85, 158, 56)'
             },
         ];
         const texts = [
             {
-                lable: 'Strongly agree (1)',
+                lable: 'Very low effort (1) ',
                 x: -31,
                 y: 90
             }, 
             {
-                lable: 'Strongly disagree (7)',
+                lable: 'Very high effort (5)',
                 x: 252,
                 y: 90
             }
@@ -86,16 +85,15 @@ const visObject = {
 
         // compare the input number with the first range against the second range
         function convertRange( input, range1, range2 ) {
-            // check if the input is less than 1 or more than 7
-            console.log(range1[0] - 0.1)
-            if (input > range1[0] - 0.1 && input <= range1[1]) {
+            // check if the input is less than 1 or more than 5
+            if (input > (range1[0] - 0.1) && input < (range1[1] + 0.1) ) {
                 return ( input - range1[ 0 ] ) * ( range2[ 1 ] - range2[ 0 ] ) / ( range1[ 1 ] - range1[ 0 ] ) + range2[ 0 ]
             } else {
                 return 'Out of range!'
             }
         }
-
-        var isString = isNaN(convertRange(mesRendered, [1, 7], [0, 180]));
+        
+        var isString = isNaN(convertRange(mesRendered, [1, 5], [0, 180]));
         var numberOfint = mesRendered.toString().length;
 
         svg.append("line")
@@ -105,7 +103,7 @@ const visObject = {
             .attr("y2", 100)
             .attr("pathLength", 100)
             .attr("stroke-width", 5).attr("stroke", "#333")
-            .attr('transform','translate(1 1) rotate(' + convertRange(mesRendered, [1, 7], [0, 180]) + ')')
+            .attr('transform','translate(1 1) rotate(' + convertRange(mesRendered, [1, 5], [0, 180]) + ')')
             .attr('transform-origin', '150 100');
 
         var score = isString ? 
@@ -116,7 +114,7 @@ const visObject = {
         .attr("fill", "red")
         .style("font-family", "Arial, Helvetica, sans-serif")
         .style('cursor', 'pointer')
-        .text('Out of range!, your input must be between 1 to 7') : 
+        .text('Out of range!, your input must be between 1 to 5') : 
         svg.append("text")
         .attr("dx", numberOfint > 2 ? 120 : 130)
         .attr("dy", 140)

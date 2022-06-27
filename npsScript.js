@@ -100,7 +100,7 @@ function convertRange( input, range1, range2 ) {
     }
 }
 
-var dataNps = -101;
+var dataNps = -18;
 var isString = isNaN(convertRange(dataNps, [-100, 100], [0, 180]));
 var numberOfint = dataNps.toString().length;
 
