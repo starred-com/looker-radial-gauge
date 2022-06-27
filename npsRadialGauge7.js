@@ -17,7 +17,7 @@ const visObject = {
         var svg = d3.select("#vis")
                     .append("svg")
                     .style('position', 'fixed')
-                    .attr('viewBox', '-20 -20 350 160')
+                    .attr('viewBox', '-20 0 350 160')
                     .attr('preserveAspectRatio', 'xMidYMid meet');
         const slices = [
             {
@@ -85,16 +85,22 @@ const visObject = {
 
         // compare the input number with the first range against the second range
         function convertRange( input, range1, range2 ) {
-            // check if the input is less than 100 or more than -100
-            if (input > (range1[0] - 0.1) && input < (range1[1] + 0.1) ) {
-                return ( input - range1[ 0 ] ) * ( range2[ 1 ] - range2[ 0 ] ) / ( range1[ 1 ] - range1[ 0 ] ) + range2[ 0 ]
+            if (input !== null) {
+                // check if the input is less than 100 or more than -100
+                if (input > (range1[0] - 0.1) && input < (range1[1] + 0.1) ) {
+                    return ( input - range1[ 0 ] ) * ( range2[ 1 ] - range2[ 0 ] ) / ( range1[ 1 ] - range1[ 0 ] ) + range2[ 0 ]
+                } else {
+                    return 'Out of range!'
+                }
             } else {
-                return 'Out of range!'
+                return null
             }
         }
 
-        var isString = isNaN(convertRange(mesRendered, [-100, 100], [0, 180]));
-        var numberOfint = mesRendered.toString().length;
+        var isString = mesRendered !== null && isNaN(convertRange(mesRendered, [-100, 100], [0, 180]));
+        var numberOfint = mesRendered !== null && mesRendered.toString().length;
+        var rotationValue = mesRendered !== null ? convertRange(mesRendered, [-100, 100], [0, 180]) : 0;
+        var message = 'Out of range!, your input must be between -100 to 100';
 
         svg.append("line")
             .attr("x1", 80)
@@ -103,18 +109,22 @@ const visObject = {
             .attr("y2", 100)
             .attr("pathLength", 100)
             .attr("stroke-width", 5).attr("stroke", "#333")
-            .attr('transform','translate(1 1) rotate(' + convertRange(mesRendered, [-100, 100], [0, 180]) + ')')
+            .attr('transform','translate(1 1) rotate(' + rotationValue + ')')
             .attr('transform-origin', '150 100');
 
         var score = 
         svg.append("text")
         .attr("dx", isString ? 40 : (numberOfint > 2 ? 120 : 130))
-        .attr("dy", isString ? 120 : 140)
-        .style("font-size", isString ? '10px' : "38px")
-        .attr("fill", isString ? "red" :"#333")
+        .attr("dy", (isString || mesRendered === null) ? 120 : 140)
+        .style("font-size", (isString || mesRendered === null) ? '10px' : "38px")
+        .attr("fill", isString ? "red" : "#333")
         .style("font-family", "Arial, Helvetica, sans-serif")
         .style('cursor', 'pointer')
-        .text(isString ? 'Out of range!, your input must be between -100 to 100' : mesRendered)
+        .text(isString ? 
+            message : 
+            mesRendered === null ? 
+            'No Results' : 
+            mesRendered)
         .on("click", function (d, i) {
             LookerCharts.Utils.openDrillMenu({
                 links: mesLink,
