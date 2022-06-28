@@ -35,7 +35,7 @@ svg.append("g").attr("transform", "translate(150,140)");
 
 var font = `"Google Sans", "Noto Sans", "Noto Sans JP", "Noto Sans CJK KR", "Noto Sans Arabic UI", "Noto Sans Devanagari UI", "Noto Sans Hebrew", "Noto Sans Thai UI", Helvetica, Arial, sans-serif`
         
-var title =svg.append("text")
+var title = svg.append("text")
     .attr("dx", 105)
     .attr("dy", 0)
     .style("font-size", "1.125rem")
