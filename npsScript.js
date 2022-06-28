@@ -1,6 +1,6 @@
 
 var svg = d3.select("#vis").append("svg").style('position', 'fixed')
-.attr('viewBox', '-20 0 350 160').attr('preserveAspectRatio', 'xMidYMid meet');
+.attr('viewBox', '-20 0 350 185').attr('preserveAspectRatio', 'xMidYMid meet');
 const slices = [
     {
         starts: -1.48999 * Math.PI/3,
@@ -22,16 +22,28 @@ const texts = [
     {
         number: '-100',
         x: 15,
-        y: 90
+        y: 130
     }, 
     {
         number: '100',
         x: 255,
-        y: 90
+        y: 130
     }
 ];
 
-svg.append("g").attr("transform", "translate(150,100)");
+svg.append("g").attr("transform", "translate(150,140)");
+
+var font = `"Google Sans", "Noto Sans", "Noto Sans JP", "Noto Sans CJK KR", "Noto Sans Arabic UI", "Noto Sans Devanagari UI", "Noto Sans Hebrew", "Noto Sans Thai UI", Helvetica, Arial, sans-serif`
+        
+var title =svg.append("text")
+    .attr("dx", 105)
+    .attr("dy", 0)
+    .style("font-size", "1.125rem")
+    .attr("fill", "#333")
+    .style("font-family", font)
+    .style('cursor', 'pointer')
+    .attr("transform", "translate(2,17)")
+    .text("NPS Score");
 
 var arcGenerator = slices.map(d => {
     d3.select("#vis g")
@@ -54,41 +66,9 @@ var sideText = texts.map(d => {
     .attr("dy", d.y)
     .style("font-size", "15px")
     .attr("fill", "#333")
-    .style("font-family", "Arial, Helvetica, sans-serif")
+    .style("font-family", font)
     .text(d.number);
 });
-// // function will check the range between 1 - 7 and if it's out of range then the return is error 'string'
-// function rotateIndicator(input) {
-//     var angleNumber = null
-
-//     if (input > -101 && input < 101) {
-//         if (input <= -90) {
-//             angleNumber = 20
-//         } 
-//         if (input > -90 && input <= -67) {
-//             angleNumber = 40
-//         } 
-//         if (input > -67 && input <= -33) {
-//             angleNumber = 60
-//         }
-//         if (input > -33 && input <= 1) {
-//             angleNumber = 80
-//         }
-//         if (input > 1 && input <= 33) {
-//             angleNumber = 110
-//         }
-//         if (input > 33 && input <= 67) {
-//             angleNumber = 140
-//         }
-//         if (input > 67 && input <= 100) {
-//             angleNumber = 170
-//         }
-//     } else {
-//         angleNumber = 'Out of range!'
-//     }
-
-//     return angleNumber
-// };
 
 // compare the input number with the first range against the second range
 function convertRange( input, range1, range2 ) {
@@ -109,21 +89,36 @@ var isString = dataNps !== null && isNaN(convertRange(dataNps, [-100, 100], [0, 
 var numberOfint = dataNps !== null && dataNps.toString().length;
 var rotationValue = dataNps !== null ? (convertRange(dataNps, [-100, 100], [0, 180])) : 0;
 var message = 'Out of range!, your input must be between -100 to 100';
-console.log(dataNps)
-
+console.log(numberOfint)
 svg.append("line")
     .attr("x1", 80)
     .attr("x2", 150)
-    .attr("y1", 100)
-    .attr("y2", 100)
+    .attr("y1", 140)
+    .attr("y2", 140)
     .attr("pathLength", 100)
     .attr("stroke-width", 5).attr("stroke", "#333")
     .attr('transform','translate(1 1) rotate(' + rotationValue + ')')
-    .attr('transform-origin', '150 100');
+    .attr('transform-origin', '150 140');
+
+function getNumberPositions() {
+    if (isString) {
+        return 40
+    } else if (dataNps === null) {
+        return 125
+    } else if (numberOfint === 4) {
+        return 110
+    } else if (numberOfint == 2) {
+        return 130
+    } else if (numberOfint > 2) {
+        return 110
+    } else {
+        return 140
+    }
+}
 // Check whither the function output is a number or a string
 var score = svg.append("text")
-    .attr("dx", isString ? 40 : (numberOfint > 2 ? 120 : 130))
-    .attr("dy", (isString || dataNps === null) ? 120 : 140)
+    .attr("dx", getNumberPositions())
+    .attr("dy", (isString || dataNps === null) ? 160 : 180)
     .style('font-size', (isString || dataNps === null) ? '10px' : "38px")
     .attr("fill", isString ? "red" : "#333")
     .style("font-family", "Arial, Helvetica, sans-serif")
