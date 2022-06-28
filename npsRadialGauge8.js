@@ -8,7 +8,11 @@ const visObject = {
       doneRendering
     ) {
         element.innerHTML = "";
-
+        console.log('queryResponse', queryResponse)
+        console.log('config', config)
+        console.log('details', details)
+        console.log('element', element)
+        console.log('data', data)
         var meas = queryResponse["fields"]["measure_like"];
         var mesID = meas[0]["name"];
         var mesData = data[0][mesID];
