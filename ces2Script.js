@@ -1,6 +1,6 @@
 
 var svg = d3.select("#vis").append("svg").style('position', 'fixed')
-.attr('viewBox', '-50 0 425 160').attr('preserveAspectRatio', 'xMidYMid meet');
+.attr('viewBox', '-85 0 510 185').attr('preserveAspectRatio', 'xMidYMid meet');
 const slices = [
     {
         starts: -1.48999 * Math.PI/3,
@@ -22,16 +22,28 @@ const texts = [
     {
         lable: 'Strongly agree (1)',
         x: -31,
-        y: 90
+        y: 130
     }, 
     {
         lable: 'Strongly disagree (7)',
         x: 252,
-        y: 90
+        y: 130
     }
 ];
 
-svg.append("g").attr("transform", "translate(150,100)");
+svg.append("g").attr("transform", "translate(150,140)");
+
+var font = `"Google Sans", "Noto Sans", "Noto Sans JP", "Noto Sans CJK KR", "Noto Sans Arabic UI", "Noto Sans Devanagari UI", "Noto Sans Hebrew", "Noto Sans Thai UI", Helvetica, Arial, sans-serif`;
+
+var title =svg.append("text")
+    .attr("dx", 105)
+    .attr("dy", 0)
+    .style("font-size", "1.125rem")
+    .attr("fill", "#333")
+    .style("font-family", font)
+    .style('cursor', 'pointer')
+    .attr("transform", "translate(2,17)")
+    .text("NPS Score");
 
 var arcGenerator = slices.map(d => {
     d3.select("#vis g")
@@ -54,43 +66,9 @@ var sideText = texts.map(d => {
     .attr("dy", d.y)
     .style("font-size", "10px")
     .attr("fill", "#333")
-    .style("font-family", "Arial, Helvetica, sans-serif")
+    .style("font-family", font)
     .text(d.lable);
 });
-// function will check the range between 1 - 7 and if it's out of range then the return is error 'string'
-// function rotateIndicator(input) {
-//     var angleNumber = null
-//     if (input > 0 && input < 8) {
-//         if (input <= 1.5) {
-//             angleNumber = 30
-//         }
-//         if (input > 1.5 && input <= 2) {
-//             angleNumber = 60
-//         }
-//         if (input > 2 && input <= 2.4) {
-//             angleNumber = 80
-//         }
-//         if (input > 2.4 && input <= 3.4) {
-//             angleNumber = 90
-//         }
-//         if (input > 3.4 && input <= 4.5) {
-//             angleNumber = 130
-//         }
-//         if (input > 4.5 && input <= 5) {
-//             angleNumber = 150
-//         }
-//         if (input > 5 && input <= 6) {
-//             angleNumber = 160
-//         }
-//         if (input > 6) {
-//             angleNumber = 170
-//         }
-//     } else {
-//         angleNumber = 'Out of range!';
-//     }
-
-//     return angleNumber
-// };
 
 // compare the input number with the first range against the second range
 function convertRange( input, range1, range2 ) {
@@ -106,28 +84,44 @@ function convertRange( input, range1, range2 ) {
     }
 }
 
-var dataNps = 5;
+var dataNps = null;
 var isString = dataNps !== null && isNaN(convertRange(dataNps, [1, 7], [0, 180]));
 var numberOfint = dataNps !== null && dataNps.toString().length;
 var rotationValue = dataNps !== null ? (convertRange(dataNps, [1, 7], [0, 180])) : 0;
-var message = 'Out of range!, your input must be between 1 to 5'
+var message = 'Out of range!, your input must be between 1 to 7'
 
 svg.append("line")
     .attr("x1", 80)
     .attr("x2", 150)
-    .attr("y1", 100)
-    .attr("y2", 100)
+    .attr("y1", 140)
+    .attr("y2", 140)
     .attr("pathLength", 100)
     .attr("stroke-width", 5).attr("stroke", "#333")
     .attr('transform','translate(1 1) rotate(' + rotationValue + ')')
-    .attr('transform-origin', '150 100');
+    .attr('transform-origin', '150 140');
+
+function getNumberPositions() {
+    if (isString) {
+        return 40
+    } else if (dataNps === null) {
+        return 125
+    } else if (numberOfint === 4) {
+        return 110
+    } else if (numberOfint == 2) {
+        return 130
+    } else if (numberOfint > 2) {
+        return 110
+    } else {
+        return 140
+    }
+}
 
 var score = svg.append("text")
-    .attr("dx", isString ? 40 : (numberOfint > 2 ? 120 : 130))
-    .attr("dy", (isString || dataNps === null) ? 120 : 140)
+    .attr("dx", getNumberPositions())
+    .attr("dy", (isString || dataNps === null) ? 160 : 180)
     .style('font-size', (isString || dataNps === null) ? '10px' : "38px")
     .attr("fill", isString ? "red" : "#333")
-    .style("font-family", "Arial, Helvetica, sans-serif")
+    .style("font-family", font)
     .style('cursor', 'pointer')
     .text(isString ? 
         message : 
