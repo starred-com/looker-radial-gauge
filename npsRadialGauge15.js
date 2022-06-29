@@ -17,13 +17,12 @@ const visObject = {
         var title = "NPS Score";
         var font = `"Google Sans", "Noto Sans", "Noto Sans JP", "Noto Sans CJK KR", "Noto Sans Arabic UI", "Noto Sans Devanagari UI", "Noto Sans Hebrew", "Noto Sans Thai UI", Helvetica, Arial, sans-serif`;
 
-
         var svg = d3.select("#vis")
                     .append("svg")
                     .style('position', 'fixed')
                     .attr('viewBox', '-85 0 510 185')
                     .attr('preserveAspectRatio', 'xMidYMid meet');
-        const slices = [
+        var slices = [
             {
                 starts: -1.48999 * Math.PI/3,
                 ends: -0.5 * Math.PI/3,
@@ -40,7 +39,7 @@ const visObject = {
                 color: 'rgb(85, 158, 56)'
             },
         ];
-        const texts = [
+        var texts = [
             {
                 number: '-100',
                 x: 15,
@@ -80,15 +79,16 @@ const visObject = {
             });
         });
 
-        var sideText = texts.map(d => {
-            svg.append("text")
-            .attr("dx", d.x)
-            .attr("dy", d.y)
+        var sideText = svg.selectAll("texts")
+            .data(texts)
+            .enter()
+            .append("text")
+            .attr("dx", function (d) { return d.x })
+            .attr("dy", function (d) { return d.y })
             .style("font-size", "15px")
             .attr("fill", "#333")
             .style("font-family", font)
-            .text(d.number);
-        });
+            .text( function (d) { return d.number });
 
         // compare the input number with the first range against the second range
         function convertRange( input, range1, range2 ) {
@@ -136,24 +136,24 @@ const visObject = {
         }
 
         var score = 
-        svg.append("text")
-        .attr("dx", getNumberPositions())
-        .attr("dy", (isString || mesRendered === null) ? 160 : 180)
-        .style("font-size", (isString || mesRendered === null) ? '10px' : "38px")
-        .attr("fill", isString ? "red" : "#333")
-        .style("font-family", font)
-        .style('cursor', 'pointer')
-        .text(isString ? 
-            message : 
-            mesRendered === null ? 
-            'No Results' : 
-            mesRendered)
-        .on("click", function (d, i) {
-            LookerCharts.Utils.openDrillMenu({
-                links: mesLink,
-                event: event,
+            svg.append("text")
+            .attr("dx", getNumberPositions())
+            .attr("dy", (isString || mesRendered === null) ? 160 : 180)
+            .style("font-size", (isString || mesRendered === null) ? '10px' : "38px")
+            .attr("fill", isString ? "red" : "#333")
+            .style("font-family", font)
+            .style('cursor', 'pointer')
+            .text(isString ? 
+                message : 
+                mesRendered === null ? 
+                'No Results' : 
+                mesRendered)
+            .on("click", function (d, i) {
+                LookerCharts.Utils.openDrillMenu({
+                    links: mesLink,
+                    event: event,
+                });
             });
-        });
   
       doneRendering();
     },
