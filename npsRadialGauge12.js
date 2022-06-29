@@ -14,7 +14,7 @@ const visObject = {
         var mesData = data[0][mesID];
         var mesLink = mesData.links;
         var mesRendered = mesData.rendered === undefined ? mesData.value : mesData.rendered;
-        var title = meas[0]["label_short"];
+        var title = "NPS Score";
         var font = `"Google Sans", "Noto Sans", "Noto Sans JP", "Noto Sans CJK KR", "Noto Sans Arabic UI", "Noto Sans Devanagari UI", "Noto Sans Hebrew", "Noto Sans Thai UI", Helvetica, Arial, sans-serif`;
 
 

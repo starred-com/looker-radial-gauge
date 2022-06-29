@@ -14,8 +14,9 @@ const visObject = {
         var mesData = data[0][mesID];
         var mesLink = mesData.links;
         var mesRendered = mesData.rendered === undefined ? mesData.value : mesData.rendered;
-        var title = meas[0]["label_short"];
+        var title = "NPS Score";
         var font = `"Google Sans", "Noto Sans", "Noto Sans JP", "Noto Sans CJK KR", "Noto Sans Arabic UI", "Noto Sans Devanagari UI", "Noto Sans Hebrew", "Noto Sans Thai UI", Helvetica, Arial, sans-serif`;
+
 
         var svg = d3.select("#vis")
                     .append("svg")
@@ -41,19 +42,19 @@ const visObject = {
         ];
         const texts = [
             {
-                lable: 'Very low effort (1) ',
-                x: -31,
+                number: '-100',
+                x: 15,
                 y: 130
             }, 
             {
-                lable: 'Very high effort (5)',
-                x: 252,
+                number: '+100',
+                x: 255,
                 y: 130
             }
         ];
 
         svg.append("g").attr("transform", "translate(150,140)");
-
+        
         svg.append("text")
             .attr("dx", 105)
             .attr("dy", 0)
@@ -89,15 +90,16 @@ const visObject = {
             svg.append("text")
             .attr("dx", d.x)
             .attr("dy", d.y)
-            .style("font-size", "10px")
+            .style("font-size", "15px")
             .attr("fill", "#333")
             .style("font-family", font)
-            .text(d.lable);
+            .text(d.number);
         });
 
         // compare the input number with the first range against the second range
         function convertRange( input, range1, range2 ) {
-            if (mesRendered !== null ) {
+            if (input !== null) {
+                // check if the input is less than 100 or more than -100
                 if (input > (range1[0] - 0.1) && input < (range1[1] + 0.1) ) {
                     return ( input - range1[ 0 ] ) * ( range2[ 1 ] - range2[ 0 ] ) / ( range1[ 1 ] - range1[ 0 ] ) + range2[ 0 ]
                 } else {
@@ -107,11 +109,11 @@ const visObject = {
                 return null
             }
         }
-        
-        var isString = mesRendered !== null && isNaN(convertRange(mesRendered, [1, 5], [0, 180]));
+
+        var isString = mesRendered !== null && isNaN(convertRange(mesRendered, [-100, 100], [0, 180]));
         var numberOfint = mesRendered !== null && mesRendered.toString().length;
-        var rotationValue = mesRendered !== null ? convertRange(mesRendered, [1, 5], [0, 180]) : 0;
-        var message = 'Out of range!, your input must be between 1 to 5';
+        var rotationValue = mesRendered !== null ? convertRange(mesRendered, [-100, 100], [0, 180]) : 0;
+        var message = 'Out of range!, your input must be between -100 to 100';
 
         svg.append("line")
             .attr("x1", 80)
@@ -140,24 +142,24 @@ const visObject = {
         }
 
         var score = 
-            svg.append("text")
-            .attr("dx", getNumberPositions())
-            .attr("dy", (isString || mesRendered === null) ? 160 : 180)
-            .style("font-size", (isString || mesRendered === null) ? '10px' : "38px")
-            .attr("fill", isString ? "red" : "#333")
-            .style("font-family", font)
-            .style('cursor', 'pointer')
-            .text(isString ? 
-                message : 
-                mesRendered === null ? 
-                'No Results' : 
-                mesRendered)
-            .on("click", function (d, i) {
-                LookerCharts.Utils.openDrillMenu({
-                    links: mesLink,
-                    event: event,
-                });
+        svg.append("text")
+        .attr("dx", getNumberPositions())
+        .attr("dy", (isString || mesRendered === null) ? 160 : 180)
+        .style("font-size", (isString || mesRendered === null) ? '10px' : "38px")
+        .attr("fill", isString ? "red" : "#333")
+        .style("font-family", font)
+        .style('cursor', 'pointer')
+        .text(isString ? 
+            message : 
+            mesRendered === null ? 
+            'No Results' : 
+            mesRendered)
+        .on("click", function (d, i) {
+            LookerCharts.Utils.openDrillMenu({
+                links: mesLink,
+                event: event,
             });
+        });
   
       doneRendering();
     },

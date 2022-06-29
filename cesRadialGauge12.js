@@ -14,7 +14,7 @@ const visObject = {
         var mesData = data[0][mesID];
         var mesLink = mesData.links;
         var mesRendered = mesData.rendered === undefined ? mesData.value : mesData.rendered;
-        var title = meas[0]["label_short"];
+        var title = "CES Score";
         var font = `"Google Sans", "Noto Sans", "Noto Sans JP", "Noto Sans CJK KR", "Noto Sans Arabic UI", "Noto Sans Devanagari UI", "Noto Sans Hebrew", "Noto Sans Thai UI", Helvetica, Arial, sans-serif`;
 
         var svg = d3.select("#vis")
@@ -26,7 +26,7 @@ const visObject = {
             {
                 starts: -1.48999 * Math.PI/3,
                 ends: -0.5 * Math.PI/3,
-                color: 'rgb(85, 158, 56)'
+                color: 'rgb(228, 86, 33)'
             },
             {
                 starts: -0.5 * Math.PI/3,
@@ -36,17 +36,17 @@ const visObject = {
             {
                 starts: 0.5 * Math.PI/3,
                 ends: 1.5 * Math.PI/3,
-                color: 'rgb(228, 86, 33)'
+                color: 'rgb(85, 158, 56)'
             },
         ];
         const texts = [
             {
-                lable: 'Strongly agree (1)',
+                lable: 'Very low effort (1) ',
                 x: -31,
                 y: 130
             }, 
             {
-                lable: 'Strongly disagree (7)',
+                lable: 'Very high effort (5)',
                 x: 252,
                 y: 130
             }
@@ -97,8 +97,8 @@ const visObject = {
 
         // compare the input number with the first range against the second range
         function convertRange( input, range1, range2 ) {
-            if (mesRendered !== null) {
-                if (input > range1[0] - 0.1 && input <= range1[1]) {
+            if (mesRendered !== null ) {
+                if (input > (range1[0] - 0.1) && input < (range1[1] + 0.1) ) {
                     return ( input - range1[ 0 ] ) * ( range2[ 1 ] - range2[ 0 ] ) / ( range1[ 1 ] - range1[ 0 ] ) + range2[ 0 ]
                 } else {
                     return 'Out of range!'
@@ -107,11 +107,11 @@ const visObject = {
                 return null
             }
         }
-
-        var isString = isNaN(convertRange(mesRendered, [1, 7], [0, 180]));
-        var numberOfint = mesRendered.toString().length;
-        var rotationValue = mesRendered !== null ? convertRange(mesRendered, [1, 7], [0, 180]) : 0;
-        var message = 'Out of range!, your input must be between 1 to 7';
+        
+        var isString = mesRendered !== null && isNaN(convertRange(mesRendered, [1, 5], [0, 180]));
+        var numberOfint = mesRendered !== null && mesRendered.toString().length;
+        var rotationValue = mesRendered !== null ? convertRange(mesRendered, [1, 5], [0, 180]) : 0;
+        var message = 'Out of range!, your input must be between 1 to 5';
 
         svg.append("line")
             .attr("x1", 80)
@@ -122,7 +122,7 @@ const visObject = {
             .attr("stroke-width", 5).attr("stroke", "#333")
             .attr('transform','translate(1 1) rotate(' + rotationValue + ')')
             .attr('transform-origin', '150 140');
-
+        
         function getNumberPositions() {
             if (isString) {
                 return 40
