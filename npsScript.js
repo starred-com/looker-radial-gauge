@@ -1,7 +1,7 @@
 
 var svg = d3.select("#vis").append("svg").style('position', 'fixed')
 .attr('viewBox', '-85 0 510 185').attr('preserveAspectRatio', 'xMidYMid meet');
-const slices = [
+var slices = [
     {
         starts: -1.48999 * Math.PI/3,
         ends: -0.5 * Math.PI/3,
@@ -31,7 +31,7 @@ const texts = [
     }
 ];
 
-svg.append("g").attr("transform", "translate(150,140)");
+// svg.append("g").attr("transform", "translate(150,140)");
 
 var font = `"Google Sans", "Noto Sans", "Noto Sans JP", "Noto Sans CJK KR", "Noto Sans Arabic UI", "Noto Sans Devanagari UI", "Noto Sans Hebrew", "Noto Sans Thai UI", Helvetica, Arial, sans-serif`
         
@@ -45,21 +45,41 @@ var title = svg.append("text")
     .attr("transform", "translate(2,17)")
     .text("NPS Score");
 
-var arcGenerator = slices.map(d => {
-    d3.select("#vis g")
+// var arcGenerator = slices.map(d => {
+//     d3.select("#vis g")
+//     .append("path")
+//     .attr("d", 
+//         d3.arc()
+//         .innerRadius(35)
+//         .outerRadius(100)
+//         .startAngle(d.starts)
+//         .endAngle(d.ends)
+//     )
+//     .attr("fill", d.color)
+//     .attr("stroke", "white")
+//     .attr("stroke-width", 1)
+//     .style('cursor', 'pointer');
+// });
+
+
+var arcs = svg.append("g")
+    .attr("transform", "translate(150,140)")
+    .selectAll("path").data(slices)
+    .enter()
     .append("path")
-    .attr("d", 
-        d3.arc()
-        .innerRadius(35)
-        .outerRadius(100)
-        .startAngle(d.starts)
-        .endAngle(d.ends)
-    )
-    .attr("fill", d.color)
+    .attr("d", d3.arc().innerRadius(35).outerRadius(100).startAngle(function (d) { return d.starts; }).endAngle(function (d) { return d.ends; }))
+    .attr("fill", function (d) { return d.color; })
     .attr("stroke", "white")
     .attr("stroke-width", 1)
     .style('cursor', 'pointer');
+
+arcs.on("click", function (d, i) {
+    LookerCharts.Utils.openDrillMenu({
+        links: mesLink,
+        event: event,
+    });
 });
+
 var sideText = texts.map(d => {
     svg.append("text")
     .attr("dx", d.x)
