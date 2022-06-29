@@ -8,10 +8,7 @@ const visObject = {
       doneRendering
     ) {
         element.innerHTML = "";
-        console.log('queryResponse', queryResponse)
-        console.log('config', config)
-        console.log('details', details)
-        console.log('data', data)
+
         var meas = queryResponse["fields"]["measure_like"];
         var mesID = meas[0]["name"];
         var mesData = data[0][mesID];
@@ -24,7 +21,7 @@ const visObject = {
         var svg = d3.select("#vis")
                     .append("svg")
                     .style('position', 'fixed')
-                    .attr('viewBox', '-10 0 350 185')
+                    .attr('viewBox', '-85 0 510 185')
                     .attr('preserveAspectRatio', 'xMidYMid meet');
         const slices = [
             {
@@ -64,7 +61,6 @@ const visObject = {
             .style("font-size", "1.125rem")
             .attr("fill", "#333")
             .style("font-family", font)
-            .style('cursor', 'pointer')
             .attr("transform", "translate(2,17)")
             .text(title);
 
