@@ -19,16 +19,26 @@ const slices = [
     },
 ];
 const texts = [
-    {
-        lable: 'Very low effort (1) ',
-        x: -31,
-        y: 130
-    }, 
-    {
-        lable: 'Very high effort (5)',
-        x: 252,
-        y: 130
-    }
+  {
+      lable: 'Very low',
+      x: 8,
+      y: 125
+  }, 
+  {
+      lable: 'effort (1)',
+      x: 8,
+      y: 137
+  }, 
+  {
+      lable: 'Very high',
+      x: 252,
+      y: 125
+  },
+  {
+      lable: 'effort (5)',
+      x: 252,
+      y: 137
+  }
 ];
 
 svg.append("g").attr("transform", "translate(150,140)");
@@ -70,23 +80,25 @@ var sideText = texts.map(d => {
     .text(d.lable);
 });
 function convertRange( input, range1, range2 ) {
-    if (input !== null) {
-        // check if the input is less than 100 or more than -100
-        if (input > (range1[0] - 0.1) && input < (range1[1] + 0.1) ) {
-            return ( input - range1[ 0 ] ) * ( range2[ 1 ] - range2[ 0 ] ) / ( range1[ 1 ] - range1[ 0 ] ) + range2[ 0 ]
-        } else {
-            return 'Out of range!'
-        }
-    } else {
-        return null
-    }
+  if (input !== null) {
+      // check if the input is less than 1 or more than 5
+      if (input > (range1[0] - 0.1) && input < (range1[1] + 0.1) ) {
+          return ( input - range1[ 0 ] ) * ( range2[ 1 ] - range2[ 0 ] ) / ( range1[ 1 ] - range1[ 0 ] ) + range2[ 0 ]
+      } else {
+          return 'Out of range!'
+      }
+  } else {
+      return null
+  }
 }
 
-var dataNps = 6;
-var isString = dataNps !== null && isNaN(convertRange(dataNps, [1, 5], [0, 180]));
-var numberOfint = dataNps !== null && dataNps.toString().length;
-var rotationValue = dataNps !== null ? (convertRange(dataNps, [1, 5], [0, 180])) : 0;
-var message = 'Out of range!, your input must be between 1 to 5'
+const dataNps = 2.55;
+const isString = dataNps !== null && isNaN(convertRange(dataNps, [1, 5], [0, 180]));
+const npsToString = dataNps.toString()
+const floatNumber = npsToString.includes('.')
+const numberOfint = dataNps !== null && dataNps.toString().length;
+const rotationValue = dataNps !== null ? (convertRange(dataNps, [1, 5], [0, 180])) : 0;
+const message = 'Out of range!, your input must be between 1 to 5'
 
 svg.append("line")
     .attr("x1", 80)
@@ -99,30 +111,32 @@ svg.append("line")
     .attr('transform-origin', '150 140');
 
 function getNumberPositions() {
-    if (isString) {
-        return 40
-    } else if (dataNps === null) {
-        return 125
-    } else if (numberOfint === 4) {
-        return 110
-    } else if (numberOfint == 2) {
-        return 130
-    } else if (numberOfint > 2) {
-        return 110
-    } else {
-        return 140
-    }
+  if (isString) {
+      return 40
+  } else if (dataNps === null) {
+      return 125
+  } else if (floatNumber && numberOfint === 3) {
+      return 125
+  } else if (numberOfint === 4) {
+      return 110
+  } else if (numberOfint == 2) {
+      return 130
+  } else if (numberOfint > 2) {
+      return 110
+  } else {
+      return 140
+  }
 }
 
-var score = svg.append("text")
-    .attr("dx", getNumberPositions())
-    .attr("dy", (isString || dataNps === null) ? 160 : 180)
-    .style('font-size', (isString || dataNps === null) ? '10px' : "38px")
-    .attr("fill", isString ? "red" : "#333")
-    .style("font-family", font)
-    .style('cursor', 'pointer')
-    .text(isString ? 
-        message : 
-        dataNps === null ? 
-        'No Results' : 
-        dataNps);
+svg.append("text")
+  .attr("dx", getNumberPositions())
+  .attr("dy", (isString || dataNps === null) ? 160 : 180)
+  .style('font-size', (isString || dataNps === null) ? '10px' : "38px")
+  .attr("fill", isString ? "red" : "#333")
+  .style("font-family", font)
+  .style('cursor', 'pointer')
+  .text(isString ? 
+      message : 
+      dataNps === null ? 
+      'No Results' : 
+      dataNps);
