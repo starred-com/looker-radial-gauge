@@ -8,10 +8,10 @@ const visObject = {
       doneRendering
     ) {
         element.innerHTML = "";
-
-        var meas = queryResponse["fields"]["measure_like"];
+        
+        var meas = queryResponse && queryResponse["fields"]["measure_like"];
         var mesID = meas[0]["name"];
-        var mesData = data[0][mesID];
+        var mesData = data && data[0][mesID];
         var mesLink = mesData.links;
         var mesRendered = mesData.rendered === undefined ? mesData.value : mesData.rendered;
         var title = "CES Score";
@@ -20,36 +20,46 @@ const visObject = {
         var svg = d3.select("#vis")
                     .append("svg")
                     .style('position', 'fixed')
-                    .attr('viewBox', '-85 0 510 185')
+                    .attr('viewBox', '-10 -10 335 216')
                     .attr('preserveAspectRatio', 'xMidYMid meet');
         const slices = [
             {
-                starts: -1.48999 * Math.PI/3,
-                ends: -0.5 * Math.PI/3,
-                color: 'rgb(228, 86, 33)'
+              starts: -1.48999 * Math.PI/3,
+              ends: -0.5 * Math.PI/3,
+              color: 'rgb(228, 86, 33)'
             },
             {
-                starts: -0.5 * Math.PI/3,
-                ends: 0.5 * Math.PI/3,
-                color: 'rgb(252, 207, 132)'
+              starts: -0.5 * Math.PI/3,
+              ends: 0.5 * Math.PI/3,
+              color: 'rgb(252, 207, 132)'
             },
             {
-                starts: 0.5 * Math.PI/3,
-                ends: 1.5 * Math.PI/3,
-                color: 'rgb(85, 158, 56)'
-            },
+              starts: 0.5 * Math.PI/3,
+              ends: 1.5 * Math.PI/3,
+              color: 'rgb(85, 158, 56)'
+            }
         ];
         const texts = [
-            {
-                lable: 'Very low effort (1) ',
-                x: -31,
-                y: 130
-            }, 
-            {
-                lable: 'Very high effort (5)',
-                x: 252,
-                y: 130
-            }
+          {
+            lable: 'Very low',
+            x: 8,
+            y: 125
+          }, 
+          {
+            lable: 'effort (1)',
+            x: 8,
+            y: 137
+          }, 
+          {
+            lable: 'Very high',
+            x: 252,
+            y: 125
+          },
+          {
+            lable: 'effort (5)',
+            x: 252,
+            y: 137
+          }
         ];
 
         svg.append("g").attr("transform", "translate(150,140)");
@@ -108,35 +118,39 @@ const visObject = {
             }
         }
         
-        var isString = mesRendered !== null && isNaN(convertRange(mesRendered, [1, 5], [0, 180]));
-        var numberOfint = mesRendered !== null && mesRendered.toString().length;
-        var rotationValue = mesRendered !== null ? convertRange(mesRendered, [1, 5], [0, 180]) : 0;
-        var message = 'Out of range!, your input must be between 1 to 5';
+        const isString = mesRendered !== null && isNaN(convertRange(mesRendered, [1, 5], [0, 180]));
+        const npsToString = mesRendered.toString()
+        const floatNumber = npsToString.includes('.')
+        const numberOfint = mesRendered !== null && mesRendered.toString().length;
+        const rotationValue = mesRendered !== null ? convertRange(mesRendered, [1, 5], [0, 180]) : 0;
+        const message = 'Out of range!, your input must be between 1 to 5';
 
         svg.append("line")
-            .attr("x1", 80)
-            .attr("x2", 150)
-            .attr("y1", 140)
-            .attr("y2", 140)
-            .attr("pathLength", 100)
-            .attr("stroke-width", 5).attr("stroke", "#333")
-            .attr('transform','translate(1 1) rotate(' + rotationValue + ')')
-            .attr('transform-origin', '150 140');
+          .attr("x1", 80)
+          .attr("x2", 150)
+          .attr("y1", 140)
+          .attr("y2", 140)
+          .attr("pathLength", 100)
+          .attr("stroke-width", 5).attr("stroke", "#333")
+          .attr('transform','translate(1 1) rotate(' + rotationValue + ')')
+          .attr('transform-origin', '150 140');
         
         function getNumberPositions() {
-            if (isString) {
-                return 40
-            } else if (mesRendered === null) {
-                return 125
-            } else if (numberOfint === 4) {
-                return 110
-            } else if (numberOfint == 2) {
-                return 130
-            } else if (numberOfint > 2) {
-                return 110
-            } else {
-                return 140
-            }
+          if (isString) {
+              return 40
+          } else if (mesRendered === null) {
+              return 125
+          } else if (floatNumber && numberOfint === 3) {
+            return 125
+          } else if (numberOfint === 4) {
+              return 110
+          } else if (numberOfint == 2) {
+              return 130
+          } else if (numberOfint > 2) {
+              return 110
+          } else {
+              return 140
+          }
         }
 
         var score = 
