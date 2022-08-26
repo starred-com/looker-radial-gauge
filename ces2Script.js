@@ -20,22 +20,32 @@ const slices = [
 ];
 const texts = [
     {
-        lable: 'Strongly agree (1)',
-        x: -31,
-        y: 130
+        lable: 'Strongly',
+        x: 8,
+        y: 125
+    },
+    {
+        lable: 'agree (1)',
+        x: 8,
+        y: 137
     }, 
     {
-        lable: 'Strongly disagree (7)',
+        lable: 'Strongly',
         x: 252,
-        y: 130
+        y: 125
+    },
+    {
+        lable: 'disagree (7)',
+        x: 252,
+        y: 137
     }
 ];
 
 svg.append("g").attr("transform", "translate(150,140)");
 
-var font = `"Google Sans", "Noto Sans", "Noto Sans JP", "Noto Sans CJK KR", "Noto Sans Arabic UI", "Noto Sans Devanagari UI", "Noto Sans Hebrew", "Noto Sans Thai UI", Helvetica, Arial, sans-serif`;
+const font = `"Google Sans", "Noto Sans", "Noto Sans JP", "Noto Sans CJK KR", "Noto Sans Arabic UI", "Noto Sans Devanagari UI", "Noto Sans Hebrew", "Noto Sans Thai UI", Helvetica, Arial, sans-serif`;
 
-var title =svg.append("text")
+var title = svg.append("text")
     .attr("dx", 105)
     .attr("dy", 0)
     .style("font-size", "1.125rem")
@@ -45,7 +55,7 @@ var title =svg.append("text")
     .attr("transform", "translate(2,17)")
     .text("NPS Score");
 
-var arcGenerator = slices.map(d => {
+slices && slices.map(d => {
     d3.select("#vis g")
     .append("path")
     .attr("d", 
@@ -60,20 +70,20 @@ var arcGenerator = slices.map(d => {
     .attr("stroke-width", 1)
     .style('cursor', 'pointer');
 });
-var sideText = texts.map(d => {
+texts && texts.map(d => {
     svg.append("text")
     .attr("dx", d.x)
     .attr("dy", d.y)
     .style("font-size", "10px")
     .attr("fill", "#333")
     .style("font-family", font)
-    .text(d.lable);
+    .text(d && d.lable);
 });
 
 // compare the input number with the first range against the second range
 function convertRange( input, range1, range2 ) {
     if (input !== null) {
-        // check if the input is less than 100 or more than -100
+        // check if the input is less than input1 or more than input2
         if (input > (range1[0] - 0.1) && input < (range1[1] + 0.1) ) {
             return ( input - range1[ 0 ] ) * ( range2[ 1 ] - range2[ 0 ] ) / ( range1[ 1 ] - range1[ 0 ] ) + range2[ 0 ]
         } else {
@@ -84,11 +94,13 @@ function convertRange( input, range1, range2 ) {
     }
 }
 
-var dataNps = null;
-var isString = dataNps !== null && isNaN(convertRange(dataNps, [1, 7], [0, 180]));
-var numberOfint = dataNps !== null && dataNps.toString().length;
-var rotationValue = dataNps !== null ? (convertRange(dataNps, [1, 7], [0, 180])) : 0;
-var message = 'Out of range!, your input must be between 1 to 7'
+const dataNps = 4.55;
+const isString = dataNps !== null && isNaN(convertRange(dataNps, [1, 7], [0, 180]));
+const npsToString = dataNps.toString()
+const floatNumber = npsToString.includes('.')
+const numberOfint = dataNps !== null && dataNps.toString().length;
+const rotationValue = dataNps !== null ? (convertRange(dataNps, [1, 7], [0, 180])) : 0;
+const message = 'Out of range!, your input must be between 1 to 7'
 
 svg.append("line")
     .attr("x1", 80)
@@ -99,11 +111,13 @@ svg.append("line")
     .attr("stroke-width", 5).attr("stroke", "#333")
     .attr('transform','translate(1 1) rotate(' + rotationValue + ')')
     .attr('transform-origin', '150 140');
-
+console.log(floatNumber)
 function getNumberPositions() {
     if (isString) {
         return 40
     } else if (dataNps === null) {
+        return 125
+    } else if (floatNumber && numberOfint === 3) {
         return 125
     } else if (numberOfint === 4) {
         return 110
@@ -116,7 +130,7 @@ function getNumberPositions() {
     }
 }
 
-var score = svg.append("text")
+svg.append("text")
     .attr("dx", getNumberPositions())
     .attr("dy", (isString || dataNps === null) ? 160 : 180)
     .style('font-size', (isString || dataNps === null) ? '10px' : "38px")
