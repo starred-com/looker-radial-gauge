@@ -1,12 +1,8 @@
 const visObject = {
-    updateAsync: function (
-      data,
-      element,
-      config,
-      queryResponse,
-      details,
-      doneRendering
-    ) {
+    create: function (element, config) {
+      element.innerHTML = "";
+    },
+    updateAsync: function (data, element, config, queryResponse, details, doneRendering) {
         element.innerHTML = "";
         
         var meas = queryResponse && queryResponse["fields"]["measure_like"];
@@ -26,7 +22,7 @@ const visObject = {
             {
               starts: -1.48999 * Math.PI/3,
               ends: -0.5 * Math.PI/3,
-              color: 'rgb(228, 86, 33)'
+              color: 'rgb(85, 158, 56)'
             },
             {
               starts: -0.5 * Math.PI/3,
@@ -36,7 +32,7 @@ const visObject = {
             {
               starts: 0.5 * Math.PI/3,
               ends: 1.5 * Math.PI/3,
-              color: 'rgb(85, 158, 56)'
+              color: 'rgb(228, 86, 33)'
             }
         ];
         const texts = [

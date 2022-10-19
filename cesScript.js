@@ -5,7 +5,7 @@ const slices = [
     {
         starts: -1.48999 * Math.PI/3,
         ends: -0.5 * Math.PI/3,
-        color: 'rgb(228, 86, 33)'
+        color: 'rgb(85, 158, 56)'
     },
     {
         starts: -0.5 * Math.PI/3,
@@ -15,7 +15,7 @@ const slices = [
     {
         starts: 0.5 * Math.PI/3,
         ends: 1.5 * Math.PI/3,
-        color: 'rgb(85, 158, 56)'
+        color: 'rgb(228, 86, 33)'
     },
 ];
 const texts = [
@@ -53,7 +53,7 @@ var title =svg.append("text")
     .style("font-family", font)
     .style('cursor', 'pointer')
     .attr("transform", "translate(2,17)")
-    .text("NPS Score");
+    .text("CES Score");
 
 var arcGenerator = slices.map(d => {
     d3.select("#vis g")

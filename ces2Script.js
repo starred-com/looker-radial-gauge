@@ -3,8 +3,8 @@ var svg = d3.select("#vis").append("svg").style('position', 'fixed')
 .attr('viewBox', '-85 0 510 185').attr('preserveAspectRatio', 'xMidYMid meet');
 const slices = [
     {
-        starts: -1.48999 * Math.PI/3,
-        ends: -0.5 * Math.PI/3,
+        starts: 0.5 * Math.PI/3,
+        ends: 1.5 * Math.PI/3,
         color: 'rgb(85, 158, 56)'
     },
     {
@@ -13,20 +13,20 @@ const slices = [
         color: 'rgb(252, 207, 132)'
     },
     {
-        starts: 0.5 * Math.PI/3,
-        ends: 1.5 * Math.PI/3,
+        starts: -1.48999 * Math.PI/3,
+        ends: -0.5 * Math.PI/3,
         color: 'rgb(228, 86, 33)'
     },
 ];
 const texts = [
     {
         lable: 'Strongly',
-        x: 8,
+        x: -6,
         y: 125
     },
     {
-        lable: 'agree (1)',
-        x: 8,
+        lable: 'disagree (7)',
+        x: -6,
         y: 137
     }, 
     {
@@ -35,7 +35,7 @@ const texts = [
         y: 125
     },
     {
-        lable: 'disagree (7)',
+        lable: 'agree (1)',
         x: 252,
         y: 137
     }
@@ -53,7 +53,7 @@ var title = svg.append("text")
     .style("font-family", font)
     .style('cursor', 'pointer')
     .attr("transform", "translate(2,17)")
-    .text("NPS Score");
+    .text("CES2 Score");
 
 slices && slices.map(d => {
     d3.select("#vis g")

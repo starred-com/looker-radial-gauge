@@ -26,8 +26,8 @@ const texts = [
     }, 
     {
         number: '100',
-        x1: 255,
-        y1: 130
+        x: 255,
+        y: 130
     }
 ];
 
@@ -105,7 +105,7 @@ function convertRange( input, range1, range2 ) {
     }
 }
 
-var dataNps = null;
+var dataNps = '0';
 var isString = dataNps !== null && isNaN(convertRange(dataNps, [-100, 100], [0, 180]));
 var numberOfint = dataNps !== null && dataNps.toString().length;
 var rotationValue = dataNps !== null ? (convertRange(dataNps, [-100, 100], [0, 180])) : 0;

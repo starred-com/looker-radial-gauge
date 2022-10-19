@@ -18,10 +18,10 @@ const visObject = {
                   .style('position', 'fixed')
                   .attr('viewBox', '-1 -10 335 216')
                   .attr('preserveAspectRatio', 'xMidYMid meet');
-      const slices = [
+    const slices = [
         {
-            starts: -1.48999 * Math.PI/3,
-            ends: -0.5 * Math.PI/3,
+            starts: 0.5 * Math.PI/3,
+            ends: 1.5 * Math.PI/3,
             color: 'rgb(85, 158, 56)'
         },
         {
@@ -30,20 +30,20 @@ const visObject = {
             color: 'rgb(252, 207, 132)'
         },
         {
-            starts: 0.5 * Math.PI/3,
-            ends: 1.5 * Math.PI/3,
+            starts: -1.48999 * Math.PI/3,
+            ends: -0.5 * Math.PI/3,
             color: 'rgb(228, 86, 33)'
-        }
-      ];
-      const texts = [
+        },
+    ];
+    const texts = [
         {
             lable: 'Strongly',
-            x: 8,
+            x: -6,
             y: 125
         },
         {
-            lable: 'agree (1)',
-            x: 8,
+            lable: 'disagree (7)',
+            x: -6,
             y: 137
         }, 
         {
@@ -52,11 +52,11 @@ const visObject = {
             y: 125
         },
         {
-            lable: 'disagree (7)',
+            lable: 'agree (1)',
             x: 252,
             y: 137
         }
-      ];
+    ];
 
       svg.append("g").attr("transform", "translate(150,140)");
 
