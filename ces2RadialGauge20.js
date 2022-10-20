@@ -42,7 +42,7 @@ const visObject = {
             y: 125
         },
         {
-            lable: 'disagree (7)',
+            lable: 'disagree (1)',
             x: -6,
             y: 137
         }, 
@@ -52,7 +52,7 @@ const visObject = {
             y: 125
         },
         {
-            lable: 'agree (1)',
+            lable: 'agree (7)',
             x: 252,
             y: 137
         }
