@@ -16,7 +16,7 @@ const visObject = {
         var svg = d3.select("#vis")
                     .append("svg")
                     .style('position', 'fixed')
-                    .attr('viewBox', '-10 -10 335 216')
+                    .attr('viewBox', '-17 0 350 200')
                     .attr('preserveAspectRatio', 'xMidYMid meet');
         const slices = [
             {
@@ -39,26 +39,26 @@ const visObject = {
           {
             lable: 'Very low',
             x: 8,
-            y: 125
+            y: 115
           }, 
           {
             lable: 'effort (1)',
             x: 8,
-            y: 137
+            y: 127
           }, 
           {
             lable: 'Very high',
             x: 252,
-            y: 125
+            y: 115
           },
           {
             lable: 'effort (5)',
             x: 252,
-            y: 137
+            y: 127
           }
         ];
 
-        svg.append("g").attr("transform", "translate(150,140)");
+        svg.append("g").attr("transform", "translate(150,130)");
 
         svg.append("text")
             .attr("dx", 105)
@@ -124,12 +124,12 @@ const visObject = {
         svg.append("line")
           .attr("x1", 80)
           .attr("x2", 150)
-          .attr("y1", 140)
-          .attr("y2", 140)
+          .attr("y1", 130)
+          .attr("y2", 130)
           .attr("pathLength", 100)
           .attr("stroke-width", 5).attr("stroke", "#333")
           .attr('transform','translate(1 1) rotate(' + rotationValue + ')')
-          .attr('transform-origin', '150 140');
+          .attr('transform-origin', '150 130');
         
         function getNumberPositions() {
           if (isString) {
@@ -152,7 +152,7 @@ const visObject = {
         var score = 
             svg.append("text")
             .attr("dx", getNumberPositions())
-            .attr("dy", (isString || mesRendered === null) ? 160 : 180)
+            .attr("dy", (isString || mesRendered === null) ? 150 : 165)
             .style("font-size", (isString || mesRendered === null) ? '10px' : "38px")
             .attr("fill", isString ? "red" : "#333")
             .style("font-family", font)

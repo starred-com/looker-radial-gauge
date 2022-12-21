@@ -1,7 +1,7 @@
 
 var svg = d3.select("#vis").append("svg").style('position', 'fixed')
 // .attr('viewBox', '-85 0 510 185').attr('preserveAspectRatio', 'xMidYMid meet');
-.attr('viewBox', '-135 0 560 185').attr('preserveAspectRatio', 'xMidYMid meet');
+.attr('viewBox', '-17 0 350 200').attr('preserveAspectRatio', 'xMidYMid meet');
 const slices = [
     {
         starts: 0.5 * Math.PI/3,
@@ -23,26 +23,26 @@ const texts = [
     {
         lable: 'Strongly',
         x: -6,
-        y: 125
+        y: 115
     },
     {
         lable: 'disagree (1)',
         x: -6,
-        y: 137
+        y: 127
     }, 
     {
         lable: 'Strongly',
         x: 252,
-        y: 125
+        y: 115
     },
     {
         lable: 'agree (7)',
         x: 252,
-        y: 137
+        y: 127
     }
 ];
 
-svg.append("g").attr("transform", "translate(150,140)");
+svg.append("g").attr("transform", "translate(150,130)");
 
 const font = `"Google Sans", "Noto Sans", "Noto Sans JP", "Noto Sans CJK KR", "Noto Sans Arabic UI", "Noto Sans Devanagari UI", "Noto Sans Hebrew", "Noto Sans Thai UI", Helvetica, Arial, sans-serif`;
 
@@ -95,7 +95,7 @@ function convertRange( input, range1, range2 ) {
     }
 }
 
-const dataNps = 4.55;
+const dataNps = 3.567;
 const isString = dataNps !== null && isNaN(convertRange(dataNps, [1, 7], [0, 180]));
 const npsToString = dataNps.toString()
 const floatNumber = npsToString.includes('.')
@@ -106,12 +106,12 @@ const message = 'Out of range!, your input must be between 1 to 7'
 svg.append("line")
     .attr("x1", 80)
     .attr("x2", 150)
-    .attr("y1", 140)
-    .attr("y2", 140)
+    .attr("y1", 130)
+    .attr("y2", 130)
     .attr("pathLength", 100)
     .attr("stroke-width", 5).attr("stroke", "#333")
     .attr('transform','translate(1 1) rotate(' + rotationValue + ')')
-    .attr('transform-origin', '150 140');
+    .attr('transform-origin', '150 130');
 console.log(floatNumber)
 function getNumberPositions() {
     if (isString) {
@@ -133,7 +133,7 @@ function getNumberPositions() {
 
 svg.append("text")
     .attr("dx", getNumberPositions())
-    .attr("dy", (isString || dataNps === null) ? 160 : 180)
+    .attr("dy", (isString || dataNps === null) ? 150 : 165)
     .style('font-size', (isString || dataNps === null) ? '10px' : "38px")
     .attr("fill", isString ? "red" : "#333")
     .style("font-family", font)
