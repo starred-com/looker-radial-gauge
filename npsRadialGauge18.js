@@ -4,7 +4,6 @@ const visObject = {
     },
     updateAsync: function (data, element, config, queryResponse, details, doneRendering) {
         element.innerHTML = "";
-console.log(data, queryResponse)
         var meas = queryResponse["fields"]["measure_like"];
         var mesID = meas[0]["name"];
         var mesData = data[0][mesID];
