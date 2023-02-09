@@ -7,9 +7,9 @@ const visObject = {
         
         var meas = queryResponse && queryResponse["fields"]["measure_like"];
         var mesID = meas && meas[0]["name"];
-        var mesData = data && ( mesID && data[0][mesID] );
+        var mesData = data && ( mesID !== undefined ? ( data[0] ? ( data[0][mesID] ? data[0][mesID] : null ) : null ) : null );
         var mesLink = mesData && mesData.links;
-        var mesRendered = mesData && (typeof mesData.rendered === undefined ? mesData.value : mesData.rendered);
+        var mesRendered = mesData && (mesData.rendered === undefined ? mesData.value : mesData.rendered);
         var title = "CES Score";
         var font = `"Google Sans", "Noto Sans", "Noto Sans JP", "Noto Sans CJK KR", "Noto Sans Arabic UI", "Noto Sans Devanagari UI", "Noto Sans Hebrew", "Noto Sans Thai UI", Helvetica, Arial, sans-serif`;
 

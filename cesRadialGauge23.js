@@ -6,17 +6,17 @@ const visObject = {
         element.innerHTML = "";
         
         var meas = queryResponse && queryResponse["fields"]["measure_like"];
-        var mesID = meas[0]["name"];
-        var mesData = data && data[0][mesID];
-        var mesLink = mesData.links;
-        var mesRendered = mesData.rendered === undefined ? mesData.value : mesData.rendered;
+        var mesID = meas && meas[0]["name"];
+        var mesData = data && ( mesID !== undefined ? ( data[0] ? ( data[0][mesID] ? data[0][mesID] : null ) : null ) : null );
+        var mesLink = mesData && mesData.links;
+        var mesRendered = mesData && (mesData.rendered === undefined ? mesData.value : mesData.rendered);
         var title = "CES Score";
         var font = `"Google Sans", "Noto Sans", "Noto Sans JP", "Noto Sans CJK KR", "Noto Sans Arabic UI", "Noto Sans Devanagari UI", "Noto Sans Hebrew", "Noto Sans Thai UI", Helvetica, Arial, sans-serif`;
 
         var svg = d3.select("#vis")
                     .append("svg")
                     .style('position', 'fixed')
-                    .attr('viewBox', '-10 0 350 200')
+                    .attr('viewBox', '-17 0 350 200')
                     .attr('preserveAspectRatio', 'xMidYMid meet');
         const slices = [
             {
@@ -39,26 +39,26 @@ const visObject = {
           {
             lable: 'Very low',
             x: 8,
-            y: 125
+            y: 115
           }, 
           {
             lable: 'effort (1)',
             x: 8,
-            y: 137
+            y: 127
           }, 
           {
             lable: 'Very high',
             x: 252,
-            y: 125
+            y: 115
           },
           {
             lable: 'effort (5)',
             x: 252,
-            y: 137
+            y: 127
           }
         ];
 
-        svg.append("g").attr("transform", "translate(150,140)");
+        svg.append("g").attr("transform", "translate(150,130)");
 
         svg.append("text")
             .attr("dx", 105)
@@ -85,7 +85,7 @@ const visObject = {
             .style('cursor', 'pointer')
             .on("click", function (d, i) {
                 LookerCharts.Utils.openDrillMenu({
-                    links: mesLink,
+                    links: mesLink ? mesLink : null,
                     event: event,
                 });
             });
@@ -124,12 +124,12 @@ const visObject = {
         svg.append("line")
           .attr("x1", 80)
           .attr("x2", 150)
-          .attr("y1", 140)
-          .attr("y2", 140)
+          .attr("y1", 130)
+          .attr("y2", 130)
           .attr("pathLength", 100)
           .attr("stroke-width", 5).attr("stroke", "#333")
           .attr('transform','translate(1 1) rotate(' + rotationValue + ')')
-          .attr('transform-origin', '150 140');
+          .attr('transform-origin', '150 130');
         
         function getNumberPositions() {
           if (isString) {
@@ -152,7 +152,7 @@ const visObject = {
         var score = 
             svg.append("text")
             .attr("dx", getNumberPositions())
-            .attr("dy", (isString || mesRendered === null) ? 160 : 180)
+            .attr("dy", (isString || mesRendered === null) ? 150 : 165)
             .style("font-size", (isString || mesRendered === null) ? '10px' : "38px")
             .attr("fill", isString ? "red" : "#333")
             .style("font-family", font)
@@ -164,7 +164,7 @@ const visObject = {
                 mesRendered)
             .on("click", function (d, i) {
                 LookerCharts.Utils.openDrillMenu({
-                    links: mesLink,
+                    links: mesLink ? mesLink : null,
                     event: event,
                 });
             });

@@ -6,10 +6,10 @@ const visObject = {
         element.innerHTML = "";
 
         var meas = queryResponse && queryResponse["fields"]["measure_like"];
-        var mesID = meas[0]["name"];
-        var mesData = data && data[0][mesID];
-        var mesLink = mesData.links;
-        var mesRendered = mesData.rendered === undefined ? mesData.value : mesData.rendered;
+        var mesID = meas && meas[0]["name"];
+        var mesData = data && ( mesID !== undefined ? ( data[0] ? ( data[0][mesID] ? data[0][mesID] : null ) : null ) : null );
+        var mesLink = mesData && mesData.links;
+        var mesRendered = mesData && (mesData.rendered === undefined ? mesData.value : mesData.rendered)
         var title = "CES2 Score";
         var font = `"Google Sans", "Noto Sans", "Noto Sans JP", "Noto Sans CJK KR", "Noto Sans Arabic UI", "Noto Sans Devanagari UI", "Noto Sans Hebrew", "Noto Sans Thai UI", Helvetica, Arial, sans-serif`;
 
@@ -85,7 +85,7 @@ const visObject = {
         .style('cursor', 'pointer')
         .on("click", function (d, i) {
             LookerCharts.Utils.openDrillMenu({
-                links: mesLink,
+                links: mesLink ? mesLink : null,
                 event: event,
             });
         });
@@ -163,7 +163,7 @@ const visObject = {
           mesRendered)
       .on("click", function (d, i) {
           LookerCharts.Utils.openDrillMenu({
-              links: mesLink,
+              links: mesLink ? mesLink : null,
               event: event,
           });
       });

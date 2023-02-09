@@ -4,12 +4,11 @@ const visObject = {
     },
     updateAsync: function (data, element, config, queryResponse, details, doneRendering) {
         element.innerHTML = "";
-console.log(data, queryResponse)
-        var meas = queryResponse["fields"]["measure_like"];
-        var mesID = meas[0]["name"];
-        var mesData = data[0][mesID];
-        var mesLink = mesData.links;
-        var mesRendered = mesData.rendered === undefined ? mesData.value : mesData.rendered;
+        var meas = queryResponse && queryResponse["fields"]["measure_like"];
+        var mesID = meas && meas[0]["name"];
+        var mesData = data && ( mesID !== undefined ? ( data[0] ? ( data[0][mesID] ? data[0][mesID] : null ) : null ) : null );
+        var mesLink = mesData && mesData.links;
+        var mesRendered = mesData && (mesData.rendered === undefined ? mesData.value : mesData.rendered);
         var title = "NPS Score";
         var font = `"Google Sans", "Noto Sans", "Noto Sans JP", "Noto Sans CJK KR", "Noto Sans Arabic UI", "Noto Sans Devanagari UI", "Noto Sans Hebrew", "Noto Sans Thai UI", Helvetica, Arial, sans-serif`;
 
@@ -70,7 +69,7 @@ console.log(data, queryResponse)
     
         arcs.on("click", function (d, i) {
             LookerCharts.Utils.openDrillMenu({
-                links: mesLink,
+                links: mesLink ? mesLink : null,
                 event: event,
             });
         });
@@ -146,7 +145,7 @@ console.log(data, queryResponse)
                 mesRendered)
             .on("click", function (d, i) {
                 LookerCharts.Utils.openDrillMenu({
-                    links: mesLink,
+                    links: mesLink ? mesLink : null,
                     event: event,
                 });
             });
