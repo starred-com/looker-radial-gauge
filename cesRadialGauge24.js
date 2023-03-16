@@ -32,7 +32,7 @@ const visObject = {
             {
               starts: 0.5 * Math.PI/3,
               ends: 1.5 * Math.PI/3,
-              color: 'rgb(228, 86, 33)'
+              color: 'rgb(227, 23, 10)'
             }
         ];
         const texts = [
